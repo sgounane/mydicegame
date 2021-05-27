@@ -12,7 +12,9 @@ def index():
 @app.route("/game")
 def game():
     global user
-    return render_template("game.html",user=user)
+    if(len(user)>0):
+        return render_template("game.html",user=user)
+    return redirect('/login')
 
 @app.route("/login",methods=["GET","POST"])
 def login():
@@ -20,6 +22,8 @@ def login():
         global user
         user=request.form.get("user")
         return redirect('/game')
+    elif len(user)>0:
+       return  redirect('/game')
     return render_template("login.html")
 
 app.run(debug=True, port=3333, host='0.0.0.0')

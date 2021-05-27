@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div class="centreddiv">
-  <div>Player: {{ user }}</div>
+  <div>
+    <h3>Player: {{ user }}</h3>
+  </div>
   <div>
     <div>
       <img src="{{url_for('static',filename='imgs/dice-5.png')}}" alt="" />

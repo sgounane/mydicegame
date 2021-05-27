@@ -1,28 +1,26 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
+
 from werkzeug.utils import redirect
 
 app=Flask(__name__)
+app.config["SECRET_KEY"]="my secret"
 
-global user
-user=""
 @app.route("/")
 def index():
     return render_template("index.html")
 
 @app.route("/game")
 def game():
-    global user
-    if(len(user)>0):
-        return render_template("game.html",user=user)
+    if session.get("user"):
+        return render_template("game.html",user=session.get("user"))
     return redirect('/login')
 
 @app.route("/login",methods=["GET","POST"])
 def login():
     if request.method=="POST":
-        global user
-        user=request.form.get("user")
+        session["user"]=request.form.get("user")
         return redirect('/game')
-    elif len(user)>0:
+    elif session.get("user"):
        return  redirect('/game')
     return render_template("login.html")
 
